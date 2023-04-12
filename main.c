@@ -401,7 +401,7 @@ void hapus() {
 }
 
 
-//14
+//14 calvin 6
 void edit() {
     char stemp[30], search[30], temps[100];
     int jaw = 0;
@@ -452,54 +452,57 @@ void edit() {
 
         switch (jaw) {
             case 1:
-                letak(26, 19);
-                printf(" Tanggal Input Baru: ");
-                scanf(" %[^\n]s", stemp);
-                strcpy(search, dat[x].tanggal);
+                letak(26, 35);
+                printf("Masukkan Tanggal input baru : ");
+                scanf(" %[^\n]%*c", &stemp);
                 strcpy(dat[x].tanggal, stemp);
-                snprintf(temps, sizeof(temps), " ADMIN mengubah tanggal input Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].tanggal);
-                append(&head, temps);
                 break;
-
             case 2:
-                letak(26, 21);
-                printf(" Nama Barang Baru : ");
-                scanf(" %[^\n]s", stemp);
-                strcpy(search, dat[x].nama);
+                letak(26, 35);
+                printf("Masukkan Nama Barang baru : ");
+                scanf(" %[^\n]%*c", &stemp);
                 strcpy(dat[x].nama, stemp);
-                snprintf(temps, sizeof(temps), " ADMIN mengubah Nama Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].nama);
-                append(&head, temps);
                 break;
-
             case 3:
-                letak(26, 23);
-                printf(" Kode Barang Baru: ");
+                letak(26, 35);
+                printf("Masukkan Kode barang baru : ");
                 scanf("%d", &temp);
-                jaw = dat[x].id;
                 dat[x].id = temp;
-                snprintf(temps, sizeof(temps), " ADMIN mengubah Kode Barang No. %d dari %d menjadi %d", jaw, jaw, dat[x].id);
-                append(&head, temps);
                 break;
-
-                    case 4:
-            letak(26, 25);
-            printf(" Ubah Harga : ");
-            scanf(" %[^\n]s", stemp);
-            strcpy(search, dat[x].harga);
-            strcpy(dat[x].harga, stemp);
-            snprintf(temps, sizeof(temps), " ADMIN mengubah Harga Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].harga);
-            append(&head, temps);
+            case 4:
+                letak(26, 35);
+                printf("Masukkan Harga Barang baru : ");
+                scanf(" %[^\n]%*c", &stemp);
+                            strcpy(dat[x].harga, stemp);
             break;
-
         case 5:
             return;
-
         default:
-            letak(26, 34);
-            printf("\033[1;31mPilihan tidak tersedia!\033[0m");
+            letak(26, 35);
+            printf("\033[1;31mInput tidak valid, silakan coba lagi!\033[0m");
             break;
-        }
     }
+
+    FILE *fp = fopen("data_barang.txt", "w");
+    if (fp == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+
+    for (int i = 0; i < tot; i++) {
+        fprintf(fp, "%s %s %d %s\n", dat[i].tanggal, dat[i].nama, dat[i].id, dat[i].harga);
+    }
+
+    fclose(fp);
+
+    printf("\033[1;32mData berhasil diubah!\n\033[0m");
+    system("pause");
+} else {
+    letak(26, 17);
+    printf("\033[1;31mData tidak ditemukan!\n\033[0m");
+    system("pause");
+}
+system("cls");
 }
 
 
