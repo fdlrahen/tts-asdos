@@ -1,100 +1,722 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <conio.h>
-#include <windows.h>
+// 1
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    #include <windows.h>
+    #include <conio.h>
 
-FILE *fp;
-int buffer[200];
+struct data {
+    int id;
+    char nama[30], tanggal[20], harga[30], telp[20];
+}dat[15];
 
- FILE *fp = fopen("books.txt", "a");
-   if (fp!= NULL){
-    printf("File berhasil dibuat.\n");
-   }
+struct node {
+    int data;
+    char hist[100];
+    struct node *next;
+};
 
-    fprintf(fp, "%d|%c|%d\n", barang.id, barang.nama, barang.harga);
+int jum=0, tot=0, temp, oy, result, x;
+char temps[100];
+struct node*head = NULL;
 
+void letak();
+void Ulang_Login();
+void Tampilan_Tetap();
+void Mencari();
 
-        if(isEmpty(head)){
-            struct node temp = (struct node) malloc(sizeof(struct node));
-            temp->barang = barang;
-            temp->next = NULL;
-            head = temp;
-            last = temp;
-        }else{
-            struct node temp = (struct node) malloc(sizeof(struct node));
-            temp->barang = barang;
-            temp->next = NULL;
-            last->next = temp;
-            last = temp;
+// 2
+
+ void letak (int x, int y){
+        COORD CRD;
+        CRD.X=x;
+        CRD.Y=y;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),CRD);
+    }
+
+void sama() {
+          printf( "\t\t\t");
+        printf("+");
+         for(int i=0; i<51; i++)
+        {
+            printf("=");Sleep(1);
         }
+        printf("+");printf("\n");
+}
 
-        fclose(fp);
+void kosong() {
+        printf( "\t\t\t");printf("|");
+         for(int i=0; i<51; i++)
+        {
+            printf(" ");Sleep(0);
+        }
+        printf("|");printf("\n");
+}
+
+void garis() {
+        printf( "\t\t\t");
+        printf("|");
+         for(int i=0; i<51; i++)
+        {
+            printf("-");Sleep(1);
+        }
+        printf("|");printf("\n");
+}
+
+void Tampilan_Tetap() {
+
+    printf("\n\n");
+    sama();
+    kosong();
+//v-spasi tulisan satu
+        printf( "\t\t\t");printf("|");
+        for(int i=0; i<12; i++)
+        {
+            printf(" ");Sleep(1);
+        }
+        printf("\033[1;34mSelamat Datang Dalam Program\033[0m");
+ //v-spasi tulisan dua
+         for(int i=0; i<11; i++)
+        {
+            printf(" ");Sleep(1);
+        } printf("|");printf("\n");
+ //v-spasi tulisan satu
+         printf( "\t\t\t");printf("|");
+        for(int i=0; i<7; i++)
+        {
+            printf(" ");Sleep(1);
+        }
+        printf("\033[1;34m     Database Toko Klontong kami      \033[0m");
+         for(int i=0; i<6; i++)
+        {
+            printf(" ");Sleep(1);
+        } printf("|");printf("\n");
+
+    kosong();
+    garis();
+    kosong();
+
+         printf( "\t\t\t");
+        for(int i=0; i<15; i++)
+        {
+            printf(" ");Sleep(1);
+        }
+//v-waktu
+
+        printf("\033[1;32m");
+        time_t mytime;
+		mytime = time(NULL);
+		printf(ctime(&mytime));
+        printf("\033[0m");
+//v-spasi dua
+         printf( "\t\t\t");printf("|");
+         for(int i=0; i<51; i++)
+        {
+            printf(" ");Sleep(0);
+        }
+        printf("|");printf("\n");
+//v-garis penutup
+
+    garis();
+    kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();
+    kosong();kosong();kosong();kosong();
+
+}
+
+void Mencari(){
+    int i, j;
+    struct data temp;
+
+    // sorting the data array by book ID in ascending order using bubble sort
+    for(i=0; i<tot-1; i++){
+        for(j=0; j<tot-i-1; j++){
+            if(dat[j].id > dat[j+1].id){
+                temp = dat[j];
+                dat[j] = dat[j+1];
+                dat[j+1] = temp;
+            }
+        }
+    }
+}
+
+
+void append(struct node** head_ref, char histo[]) {
+
+    struct node* new_node = (struct node*) malloc(sizeof(struct node));
+    struct node *last = * head_ref;
+
+    strcpy(new_node->hist, histo);
+    new_node->next = NULL;
+
+    if(*head_ref == NULL) {
+        last = last->next;
+    }
+
+    last->next = new_node;
+}
+
+// 3
+
+void printlist(struct node *node){
+    while(node != NULL){
+        printf("%s \n", node->hist);
+        node = node->next;
+    }
+}
+
+// 4
+void tambah(){
+        FILE *file = fopen("data_barang.txt", "a");
+    if (file == NULL) {
+    printf("\033[1;31mGagal membuka file\n\033[0m");
+    return;
+    }
+    Tampilan_Tetap();
+    letak(26,13);
+    printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
+    letak(26,14);
+    printf(" Masukan Jumlah Data Buku Yang Dimasukan : "); scanf("%d", &jum);
+
+    for(int i = 0; i < jum; i++) {
+        system("cls");
+        Tampilan_Tetap();
+        letak(26,13);
+        printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
+        letak(26,14);
+        printf(" Masukan Jumlah Data Buku Yang Dimasukan : %d", jum);
+
+        letak(26,16);
+        printf(" Data ke %d", i+1);
+        letak(26,17);
+        printf(" Tanggal       : ");
+        letak(26,18);
+        printf(" Nama Barang   : ");
+        letak(26,19);
+        printf(" Kode Barang   : ");
+        letak(26,20);
+        printf(" Harga         : ");
+
+        letak(43,17);
+        scanf(" %[^\n]%*c", &dat[i+tot].tanggal);
+        letak(43,18);
+        scanf(" %[^\n]%*c", &dat[i+tot].nama);
+        letak(43,19);
+        scanf(" %d", &dat[i+tot].id);
+        letak(43,20);
+        scanf(" %[^\n]%*c", &dat[i+tot].harga);
+        // tulis data ke file
+        fprintf(file, "%s %s %d %s\n", dat[i+tot].tanggal, dat[i+tot].nama, dat[i+tot].id, dat[i+tot].harga);
+        }
+        tot += jum;
+
+        fclose(file);
+        printf("\033[1;32m\t\t\t Data berhasil ditambahkan\n\033[0m");
+        system("pause");
+        system("cls");
+
     }
 
 
+// 6
 
-void addData(){
-
+void lihat() {
+    for(int i = 0; i < tot; i++) {
+        if(i==0 || i%3==0) {
+            system("cls");
+            Tampilan_Tetap();
+            letak(26,13);
+            printf("\033[1;34m --- Daftar Data Barang --- \n\n\033[0m");
+            letak(26,15);
+            printf(" Data ke %d", i+1);
+            letak(26,16);
+            printf(" Tanggal Input           :%s", dat[i].tanggal);
+            letak(26,17);
+            printf(" Nama Barang             :%s", dat[i].nama);
+            letak(26,18);
+            printf(" Kode Barang             :%d", dat[i].id);
+            letak(26,19);
+            printf(" Harga Barang            :%s", dat[i].harga);
+        }else if(i==1 || i==4 || i==7 || i==10 || i==13) {
+            letak(26,21);
+            printf(" Data ke %d", i+1);
+            letak(26,22);
+            printf(" Tanggal Input           :%s", dat[i].tanggal);
+            letak(26,23);
+            printf(" Nama Barang             :%s", dat[i].nama);
+            letak(26,24);
+            printf(" Kode Barang             :%d", dat[i].id);
+            letak(26,25);
+            printf(" Harga Barang            :%s", dat[i].harga);
+// 7
+        }else {
+            letak(26,27);
+            printf(" Data ke %d", i+1);
+            letak(26,28);
+            printf(" Tanggal Input           :%s", dat[i].tanggal);
+            letak(26,29);
+            printf(" Nama Barang             :%s", dat[i].nama);
+            letak(26,30);
+            printf(" Kode Barang             :%d", dat[i].id);
+            letak(26,31);
+            printf(" Harga Barang            :%s", dat[i].harga);
+            getch();
+        }
+    }
+    letak(26,35);
+    printf("\033[1;32m\n\n\t\t\t Tekan Enter Untuk Kembali ke Menu\033[0m"); getch();
 }
 
-void readData(){
 
+// 8
 
+void urut() {
+    int temp;
+    char temps[30];
+    Tampilan_Tetap();
+    for (int i = 0; i < tot -1; i++) {
+    for (int j = 0; j < tot -i -1; j++) {
+    if (dat[j].id > dat[j+1].id) {
+        temp = dat[j].id;
+        dat[j].id = dat[j+1].id;
+        dat[j+1].id = temp;
+
+            strcpy(temps, dat[j].nama);
+            strcpy(dat[j].nama, dat[j+1].nama);
+            strcpy(dat[j+1].nama, temps);
+
+            strcpy(temps, dat[j].tanggal);
+            strcpy(dat[j].tanggal, dat[j+1].tanggal);
+            strcpy(dat[j+1].tanggal, temps);
+
+            strcpy(temps, dat[j].harga);
+            strcpy(dat[j].harga, dat[j+1].harga);
+            strcpy(dat[j+1].harga, temps);
+
+            strcpy(temps, dat[j].telp);
+            strcpy(dat[j].telp, dat[j+1].telp);
+            strcpy(dat[j+1].telp, temps);
+        }
+    }
+}
+printf("\033[1;32m\t\t\tData berhasil diurutkan berdasarkan Kode Barang\n\033[0m");
+system("pause");
+system("cls");
 }
 
-void updateData() {
+//11
+void cari(){
+    int oy;
+    Tampilan_Tetap();
+    letak(26,13);
+    printf("\033[1;32m --- Pencarian Data Barang --- \033[0m");
+    letak (26,15);
+    printf("Masukkan Kode Barang: ");
+    scanf("%d", &oy);
 
+    int result = 0, x;
+    for (x=0; x < tot; x++) {
+        if (oy == dat[x].id){
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1){
+        letak (26,17);
+        printf("\033[1;32m --- Data Ditemukan --- \033[0m");
+        letak (26,19);
+        printf(" Tanggal input  : %s", dat[x].tanggal);
+        letak (26,20);
+        printf(" Nama Barang    : %s", dat[x].nama);
+        letak (26,21);
+        printf(" Kode Barang    : %d", dat[x].id);
+        letak (26,22);
+        printf(" Harga Barang   : %s", dat[x].harga);
+    }
+    else{
+        letak (26,24);
+        printf("\033[1;31m\t\t\t --- Data Tidak Ditemukan ---\033[0m");
+    }
+
+    letak (26,25);
+    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+    getch();
 }
 
-void deleteData() {
 
+void hapus() {
+    if(head == NULL){
+        printf("tidak ada data!\n");
+    } else {
+        struct data *temp = head;
+        struct data *current = head;
+        int kode;
+
+        printf("masukan kode barang yang akan di hapus: ");
+        scanf("%i",&kode);
+
+        int posisi = 0;
+        while (current != NULL){
+            if (current->id == kode){
+                break;
+            }
+            posisi++;
+            current = current->next;
+        }
+        if (posisi == 0){
+            head = temp->next;
+            free(temp);
+            printf("\nData berhasil di hapus");
+        } else {
+            for(int i=0; temp!=NULL && i<posisi-1; i++){
+                temp = temp->next;
+            }
+            if (temp == NULL || temp->next == NULL){
+                printf("\nData tidak  ada");
+            } else {
+                struct data *hapus = temp->next;
+                temp->next = hapus->next;
+                free(hapus);
+                printf("\nData berhasil di hapus");
+            }
+        }
+
+        // Hapus data dari array dat
+        int result = 0;
+        for (int i = 0; i < tot; i++) {
+            if (kode == dat[i].id) {
+                result = 1;
+                for (int j = i; j < tot - 1; j++) {
+                    strcpy(dat[j].nama, dat[j + 1].nama);
+                    dat[j].id = dat[j + 1].id;
+                    strcpy(dat[j].telp, dat[j + 1].telp);
+                    strcpy(dat[j].tanggal, dat[j + 1].tanggal);
+                    strcpy(dat[j].harga, dat[j + 1].harga);
+                }
+                tot--;
+                break;
+            }
+        }
+
+        if (result == 1) {
+            letak(26,17);
+            printf("Data Barang berikut akan dihapus :");
+            letak(26,19);
+            printf(" Tanggal input : %s", dat[posisi].tanggal);
+            letak(26,20);
+            printf(" Nama Barang : %s", dat[posisi].nama);
+            letak(26,21);
+            printf(" Kode Barang : %d", dat[posisi].id);
+            letak(26,22);
+            printf(" Harga Barang : %s", dat[posisi].harga);
+
+            snprintf(temps, sizeof(temps), " ADMIN menghapus data Barang No. %d", dat[posisi].id);
+            append(&head, temps);
+
+                    for (int i = posisi; i < tot - 1; i++) {
+            dat[i].id = dat[i + 1].id;
+            strcpy(dat[i].nama, dat[i + 1].nama);
+            strcpy(dat[i].telp, dat[i + 1].telp);
+            strcpy(dat[i].tanggal, dat[i + 1].tanggal);
+            strcpy(dat[i].harga, dat[i + 1].harga);
+        }
+        tot--;
+        letak(26,24);
+        printf("\033[1;32m --- Data Berhasil Dihapus --- \033[0m");
+
+        snprintf(temps, sizeof(temps), " ADMIN menghapus data Barang No. %d", kode);
+        append(&head, temps);
+
+        // Setelah data dihapus, tampilkan data terbaru
+        tampilData();
+
+        // Tampilkan pesan untuk kembali ke menu utama
+        letak(26,25);
+        printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+        getch();
+    }
+}
 }
 
-int main(){
-system("color 37");
-    int choice;
 
-    do {
-        system("cls");
-        menuawal:
-        printf("\tPilihan Menu:\n");
-        printf("\t1. Tambah data baru\n");
-        printf("\t2. Lihat data\n");
-        printf("\t3. Ubah data\n");
-        printf("\t4. Hapus data\n");
-        printf("\t5. Keluar\n");
-        printf("\tMasukkan pilihan Anda: ");
-        scanf("%d", &choice);
-        switch(choice) {
+//14
+void edit() {
+    char stemp[30], search[30], temps[100];
+    int jaw = 0;
+    Tampilan_Tetap();
+    letak(26, 13);
+    printf("\033[1;32m --- Ubah Data Barang ---\033[0m");
+    letak(26, 15);
+    printf("Masukkan Kode Barang : ");
+    scanf("%d", &oy);
+
+    Mencari();
+
+    result = 0;
+    for (x = 0; x <= tot; x++) {
+        if (oy == dat[x].id) {
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1) {
+        letak(26, 17);
+        printf("Data Barang berikut akan Diubah :");
+        letak(26, 19);
+        printf(" Tanggal input       : %s", dat[x].tanggal);
+        letak(26, 20);
+        printf(" Nama Barang         : %s", dat[x].nama);
+        letak(26, 21);
+        printf(" Kode Barang         : %d", dat[x].id);
+        letak(26, 22);
+        printf(" Harga Barang        : %s", dat[x].harga);
+
+        letak(26, 24);
+        printf("Pilih Data yang akan diganti");
+        letak(26, 26);
+        printf("1. Tanggal input");
+        letak(26, 27);
+        printf("2. Nama Barang");
+        letak(26, 28);
+        printf("3. Kode barang");
+        letak(26, 29);
+        printf("4. Harga Barang");
+        letak(26, 30);
+        printf("5. Selesai / Batal");
+        letak(26, 32);
+        printf("Pilihan : ");
+        scanf("%d", &jaw);
+
+        switch (jaw) {
             case 1:
-                system("cls");
-                addData();
+                letak(26, 19);
+                printf(" Tanggal Input Baru: ");
+                scanf(" %[^\n]s", stemp);
+                strcpy(search, dat[x].tanggal);
+                strcpy(dat[x].tanggal, stemp);
+                snprintf(temps, sizeof(temps), " ADMIN mengubah tanggal input Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].tanggal);
+                append(&head, temps);
                 break;
 
             case 2:
-                system("cls");
-                readData();
+                letak(26, 21);
+                printf(" Nama Barang Baru : ");
+                scanf(" %[^\n]s", stemp);
+                strcpy(search, dat[x].nama);
+                strcpy(dat[x].nama, stemp);
+                snprintf(temps, sizeof(temps), " ADMIN mengubah Nama Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].nama);
+                append(&head, temps);
                 break;
-                goto menuawal;
-            case 3:
-                system("cls");
-                updateData();
-                break;
-                goto menuawal;
-            case 4:
-                system("cls");
-                deleteData();
-                break;
-            case 5:
-                system("cls");
-                printf("\nTerima kasih telah menggunakan program ini!\n");
-                exit(0);
-                break;
-            default:
-                printf("\nPilihan tidak valid. Silakan coba lagi.\n");
-        }
-    } while (choice != 5);
 
-    return 0;
+            case 3:
+                letak(26, 23);
+                printf(" Kode Barang Baru: ");
+                scanf("%d", &temp);
+                jaw = dat[x].id;
+                dat[x].id = temp;
+                snprintf(temps, sizeof(temps), " ADMIN mengubah Kode Barang No. %d dari %d menjadi %d", jaw, jaw, dat[x].id);
+                append(&head, temps);
+                break;
+
+        case 4:
+        letak(26, 25);
+        printf(" Ubah Harga : ");
+        scanf(" %[^\n]s", stemp);
+        strcpy(search, dat[x].harga);
+        strcpy(dat[x].harga, stemp);
+        snprintf(temps, sizeof(temps), " ADMIN mengubah Harga Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].harga);
+        append(&head, temps);
+        break;
+
+        case 5:
+        return;
+
+        default:
+        letak(26, 34);
+        printf("\033[1;31mPilihan tidak tersedia!\033[0m");
+        break;
+        }
+    }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int main()
+{
+    int pilihan;
+    char a=170,b=219, str[]="54321";;
+    printf("\n\n\n\n\n\n\n");
+    printf("\n\n\n\t\t\t\t\tLoading...");
+    printf("\n\n");
+    printf( "\t\t\t\t\t");
+
+    for (int i=0; i<= 25; i++)
+    {
+          printf("\033[1;32m>\033[0m");
+        Sleep(100);
+    }
+    printf ("\n\n\t\t\t\t\t\033[1;32m'\033[0mPRESS ANY BUTTON TO \033[1;32mLOGIN'\033[0m ");
+    system ("pause>0");
+
+    char nama[10], psw[8];
+    int ulang = 0;
+    system ("cls");
+
+    for(int i=0; i<1; i++)
+    {
+        sama();
+        printf("\n");
+        printf( "\t\t\t");printf("|");
+        for(int i=0; i<7; i++)
+        {
+            printf(" ");Sleep(1);
+        }
+        printf("\033[1;34m     Login ke Toko Klontong KAMI      \033[0m");
+         for(int i=0; i<6; i++)
+        {
+            printf(" ");Sleep(1);
+        } printf("|");printf("\n");
+        printf("\n");
+        sama();
+        printf("\n\n");
+
+}
+
+   char user[5]="tugas",pass[8]="kematian",word[8],name[5];
+    int i,j,k,l,p,input,cek,nilai,salah;
+    p=0;
+    salah=0;
+    awal:
+
+    printf("\n\n\n\n\n");
+    printf("\t\t\t\t\t");
+    printf("\033[1;34m--- SELAMAT DATANG! ---\n\033[0m");
+    printf("\n\t\t\t\t\t");
+    printf("USERNAME  : ");
+    printf("\033[1;32m");
+    scanf("%s",&name);
+    cek=0;
+    for(i=0;i<5;i++){
+        if(name[i]==user[i]){
+            cek=cek+1;
+        }else{
+            cek=0;
+        }
+    }
+    printf("\033[0m");
+    printf("\n\t\t\t\t\t");
+    printf("PASSWORD  : ");
+    for(i=0;i<8;i++){
+        input=getch();
+        if(input==13){
+            goto cek;
+        }else{
+            word[i]=input;
+            printf("\033[1;32m*\033[0m");
+        }
+    }
+    nilai=0;
+    for(i=0;i<8;i++){
+        if(pass[i]==word[i]){
+            nilai=nilai+1;
+        }else{
+            nilai=0;
+        }
+    }
+    getch();
+    cek:
+    if(cek==5&&nilai==8){
+        printf("\n\n\t\t\t\t  ");
+        printf("\033[1;32mSelamat datang di Tugas Kematian\033[0m");
+        printf("\n\n\t\t\t\t       ");
+        printf("\033[1;32mKlik ENTER untuk lanjut\033[0m");
+        getch();
+        system("cls");
+        goto muka;
+    }else{
+        if(cek==5){
+            printf("\n\n\t\t\t\t\t   ");
+            printf("\033[1;31mPassword salah\033[0m");
+            goto bawah;
+        }else if(nilai==8){
+            printf("\n\n\t\t\t\t\t   ");
+            printf("\033[1;31mUsername salah\033[0m");
+            goto bawah;
+        }else{
+            printf("\n\n\t\t\t\t     ");
+            printf("\033[1;31mUsername dan Password salah\033[0m");
+            goto bawah;
+        }
+    }
+    bawah:
+    salah=salah+1;
+    if(salah==3){
+        printf("\n\n\t\t  ");
+        printf("\033[1;31mAnda telah salah menginput username dan password sebanyak 3 kali\n\033[0m");
+        printf("\033[1;31m\n\t\t\t\t\tAnda akan keluar dalam \033[0m");
+        for( i =1 ; i<= 5; i++ ) {
+            letak(51, 20);
+            printf("%c", str[p++]);
+            Sleep(1000);
+            if(p == strlen(str))
+            p = 0;
+        }
+        system("cls");
+        return 0;
+    }else{
+        printf("\n\n\t\t\t\t     ");
+        printf("\033[1;32mKlik ENTER untuk mengulangi\033[0m");
+        printf("\n\n\t\t\t\t  ");
+        printf("\033[1;31mAnda memiliki %d kesempatan lagi!\033[0m",3-salah);
+        getch();
+        goto awal;
+    }
+
+    muka:
+
+        do {
+        system ("cls");
+        Tampilan_Tetap();
+        letak (26,13);
+        printf("1. Tambah Data Barang");
+        letak (26,14);
+        printf("2. Lihat Data Barang");
+        letak (26,15);
+        printf("3. Urutkan Data Barang");
+        letak (26,16);
+        printf("4. Pencarian Data Barang");
+        letak (26,17);
+        printf("5. Hapus Data Barang");
+        letak (26,18);
+        printf("6. Ubah Data Barang");
+        letak (26,19);
+        printf("\033[1;31m7. Exit\033[0m");
+        letak (26,21);
+        printf("\033[1;34mMasukkan Pilihan Anda : \033[0m"); scanf("%d", &pilihan);
+
+        switch(pilihan) {
+            case 1: system ("cls");
+                    tambah();
+                    break;
+            case 2: system ("cls");
+                    lihat();
+                    break;
+            case 3: system ("cls");
+                    urut();
+                    break;
+            case 4: system ("cls");
+                    cari();
+                    break;
+            case 5: system ("cls");
+                    hapus();
+                    break;
+            case 6: system ("cls");
+                    edit();
+                    break;
+            case 7: return 0;
+            default: letak(6,21); printf("\033[1;34mPilihan Tidak Tersedia\033[0m");getch();
+        }
+    } while(pilihan != 7);
+
+}
