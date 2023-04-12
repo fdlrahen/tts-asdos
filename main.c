@@ -219,7 +219,13 @@ void tambah(){
 // 6
 
 void lihat() {
-    for(int i = 0; i < tot; i++) {
+    FILE *file = fopen("data_barang.txt", "r");
+    if (file == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+    int i = 0;
+    while (fscanf(file, "%s %s %d %s", dat[i].tanggal, dat[i].nama, &dat[i].id, dat[i].harga) != EOF) {
         if(i==0 || i%3==0) {
             system("cls");
             Tampilan_Tetap();
@@ -263,8 +269,7 @@ void lihat() {
     }
     letak(26,35);
     printf("\033[1;32m\n\n\t\t\t Tekan Enter Untuk Kembali ke Menu\033[0m"); getch();
-}
-// 8
+}// 8
 // punya Ikky
 void urut() {
     int temp;
