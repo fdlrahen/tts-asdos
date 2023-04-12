@@ -118,7 +118,6 @@ void Tampilan_Tetap() {
 
     garis();
     kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();
-    kosong();kosong();kosong();kosong();
 
 }
 
@@ -316,25 +315,37 @@ void mencari(){
     printf("Masukkan Kode Barang: ");
     scanf("%d", &oy);
 
+    char filename[] = "data_barang.txt";
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+
     int result = 0, x;
-    for (x=0; x < tot; x++) {
-        if (oy == dat[x].id){
+    char line[100];
+    while (fgets(line, sizeof(line), file)) {
+        sscanf(line, "%s %s %d %s", dat[tot].tanggal, dat[tot].nama, &dat[tot].id, dat[tot].harga);
+        if (oy == dat[tot].id){
             result = 1;
             break;
         }
+        tot++;
     }
+
+    fclose(file);
 
     if (result == 1){
         letak (26,17);
         printf("\033[1;32m --- Data Ditemukan --- \033[0m");
         letak (26,19);
-        printf(" Tanggal input  : %s", dat[x].tanggal);
+        printf(" Tanggal input  : %s", dat[tot].tanggal);
         letak (26,20);
-        printf(" Nama Barang    : %s", dat[x].nama);
+        printf(" Nama Barang    : %s", dat[tot].nama);
         letak (26,21);
-        printf(" Kode Barang    : %d", dat[x].id);
+        printf(" Kode Barang    : %d", dat[tot].id);
         letak (26,22);
-        printf(" Harga Barang   : %s", dat[x].harga);
+        printf(" Harga Barang   : %s", dat[tot].harga);
     }
     else{
         letak (26,24);
