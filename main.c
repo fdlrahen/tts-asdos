@@ -241,6 +241,7 @@ void lihat() {
             printf(" Kode Barang             :%d", dat[i].id);
             letak(26,19);
             printf(" Harga Barang            :%s", dat[i].harga);
+		getch();
         }else if(i==1 || i==4 || i==7 || i==10 || i==13) {
             letak(26,21);
             printf(" Data ke %d", i+1);
@@ -252,7 +253,7 @@ void lihat() {
             printf(" Kode Barang             :%d", dat[i].id);
             letak(26,25);
             printf(" Harga Barang            :%s", dat[i].harga);
-// 7
+		getch();
         }else {
             letak(26,27);
             printf(" Data ke %d", i+1);
