@@ -378,7 +378,7 @@ void cari(){
     getch();
 }
 
-
+//calvin
 void hapus() {
     char jawab, search[30];
     Tampilan_Tetap();
@@ -408,24 +408,34 @@ void hapus() {
         letak(26,22);
         printf(" Harga Barang  : %s", dat[x].harga);
 
-        snprintf(temps, sizeof(temps), " ADMIN menghapus data Barang No. %d", dat[x].id);
-        append(&head, temps);
+        printf("\n\n\t\t\t Yakin ingin menghapus data ini? (\033[1;32mY\033[0m/\033[1;31mN\033[0m) ");
+        scanf(" %c", &jawab);
 
-        for (int i = x; i < tot - 1; i++) {
-            strcpy(dat[i].nama, dat[i + 1].nama);
-            dat[i].id = dat[i + 1].id;
-            strcpy(dat[i].telp, dat[i + 1].telp);
-            strcpy(dat[i].tanggal, dat[i + 1].tanggal);
-            strcpy(dat[i].harga, dat[i + 1].harga);
+        if (jawab == 'Y' || jawab == 'y') {
+            for (int i = x; i < tot - 1; i++) {
+                dat[i] = dat[i+1];
+            }
+            tot--;
+
+            // Tulis ulang seluruh data ke file setelah dihapus
+            FILE *file = fopen("data_barang.txt", "w");
+            for (int i = 0; i < tot; i++) {
+                fprintf(file, "%s %s %d %s\n", dat[i].tanggal, dat[i].nama, dat[i].id, dat[i].harga);
+            }
+            fclose(file);
+
+            printf("\033[1;32m\t\t\t Data berhasil dihapus\n\033[0m");
         }
-        tot--;
-    } else {
-        letak(26,24);
-        printf("\033[1;31m --- Data Tidak Ditemukan --- \033[0m");
+        else {
+            printf("\033[1;31m\t\t\t Data tidak jadi dihapus\n\033[0m");
+        }
     }
-    letak(26,25);
-    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
-    getch();
+    else {
+        printf("\033[1;31m\t\t\t Data tidak ditemukan\n\033[0m");
+    }
+
+    system("pause");
+    system("cls");
 }
 
 
