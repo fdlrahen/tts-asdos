@@ -6,6 +6,32 @@
 FILE *fp;
 int buffer[200];
 
+ FILE *fp = fopen("books.txt", "a");
+   if (fp!= NULL){
+    printf("File berhasil dibuat.\n");
+   }
+
+    fprintf(fp, "%d|%c|%d\n", barang.id, barang.nama, barang.harga);
+
+
+        if(isEmpty(head)){
+            struct node temp = (struct node) malloc(sizeof(struct node));
+            temp->barang = barang;
+            temp->next = NULL;
+            head = temp;
+            last = temp;
+        }else{
+            struct node temp = (struct node) malloc(sizeof(struct node));
+            temp->barang = barang;
+            temp->next = NULL;
+            last->next = temp;
+            last = temp;
+        }
+
+        fclose(fp);
+    }
+
+
 
 void addData(){
 
