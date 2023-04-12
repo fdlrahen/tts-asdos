@@ -689,7 +689,7 @@ int main()
                     urut();
                     break;
             case 4: system ("cls");
-                    cari();
+                    mencari();
                     break;
             case 5: system ("cls");
                     hapus();
