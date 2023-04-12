@@ -301,45 +301,7 @@ system("cls");
 }
 
 //11
-void cari(){
-    int oy;
-    Tampilan_Tetap();
-    letak(26,13);
-    printf("\033[1;32m --- Pencarian Data Barang --- \033[0m");
-    letak (26,15);
-    printf("Masukkan Kode Barang: ");
-    scanf("%d", &oy);
-
-    int result = 0, x;
-    for (x=0; x < tot; x++) {
-        if (oy == dat[x].id){
-            result = 1;
-            break;
-        }
-    }
-
-    if (result == 1){
-        letak (26,17);
-        printf("\033[1;32m --- Data Ditemukan --- \033[0m");
-        letak (26,19);
-        printf(" Tanggal input  : %s", dat[x].tanggal);
-        letak (26,20);
-        printf(" Nama Barang    : %s", dat[x].nama);
-        letak (26,21);
-        printf(" Kode Barang    : %d", dat[x].id);
-        letak (26,22);
-        printf(" Harga Barang   : %s", dat[x].harga);
-    }
-    else{
-        letak (26,24);
-        printf("\033[1;31m\t\t\t --- Data Tidak Ditemukan ---\033[0m");
-    }
-
-    letak (26,25);
-    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
-    getch();
-}
-void cari(){
+void mencari(){
     int oy;
     Tampilan_Tetap();
     letak(26,13);
