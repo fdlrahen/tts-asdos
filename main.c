@@ -264,3 +264,78 @@ void lihat() {
     letak(26,35);
     printf("\033[1;32m\n\n\t\t\t Tekan Enter Untuk Kembali ke Menu\033[0m"); getch();
 }
+// 8
+// punya Ikky
+void urut() {
+    int temp;
+    char temps[30];
+    Tampilan_Tetap();
+    for (int i = 0; i < tot -1; i++) {
+    for (int j = 0; j < tot -i -1; j++) {
+    if (dat[j].id > dat[j+1].id) {
+        temp = dat[j].id;
+        dat[j].id = dat[j+1].id;
+        dat[j+1].id = temp;
+
+            strcpy(temps, dat[j].nama);
+            strcpy(dat[j].nama, dat[j+1].nama);
+            strcpy(dat[j+1].nama, temps);
+
+            strcpy(temps, dat[j].tanggal);
+            strcpy(dat[j].tanggal, dat[j+1].tanggal);
+            strcpy(dat[j+1].tanggal, temps);
+
+            strcpy(temps, dat[j].harga);
+            strcpy(dat[j].harga, dat[j+1].harga);
+            strcpy(dat[j+1].harga, temps);
+
+            strcpy(temps, dat[j].telp);
+            strcpy(dat[j].telp, dat[j+1].telp);
+            strcpy(dat[j+1].telp, temps);
+        }
+    }
+}
+printf("\033[1;32m\t\t\tData berhasil diurutkan berdasarkan Kode Barang\n\033[0m");
+system("pause");
+system("cls");
+}
+
+//11
+void cari(){
+    int oy;
+    Tampilan_Tetap();
+    letak(26,13);
+    printf("\033[1;32m --- Pencarian Data Barang --- \033[0m");
+    letak (26,15);
+    printf("Masukkan Kode Barang: ");
+    scanf("%d", &oy);
+
+    int result = 0, x;
+    for (x=0; x < tot; x++) {
+        if (oy == dat[x].id){
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1){
+        letak (26,17);
+        printf("\033[1;32m --- Data Ditemukan --- \033[0m");
+        letak (26,19);
+        printf(" Tanggal input  : %s", dat[x].tanggal);
+        letak (26,20);
+        printf(" Nama Barang    : %s", dat[x].nama);
+        letak (26,21);
+        printf(" Kode Barang    : %d", dat[x].id);
+        letak (26,22);
+        printf(" Harga Barang   : %s", dat[x].harga);
+    }
+    else{
+        letak (26,24);
+        printf("\033[1;31m\t\t\t --- Data Tidak Ditemukan ---\033[0m");
+    }
+
+    letak (26,25);
+    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+    getch();
+}
