@@ -339,3 +339,375 @@ void cari(){
     printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
     getch();
 }
+void cari(){
+    int oy;
+    Tampilan_Tetap();
+    letak(26,13);
+    printf("\033[1;32m --- Pencarian Data Barang --- \033[0m");
+    letak (26,15);
+    printf("Masukkan Kode Barang: ");
+    scanf("%d", &oy);
+
+    int result = 0, x;
+    for (x=0; x < tot; x++) {
+        if (oy == dat[x].id){
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1){
+        letak (26,17);
+        printf("\033[1;32m --- Data Ditemukan --- \033[0m");
+        letak (26,19);
+        printf(" Tanggal input  : %s", dat[x].tanggal);
+        letak (26,20);
+        printf(" Nama Barang    : %s", dat[x].nama);
+        letak (26,21);
+        printf(" Kode Barang    : %d", dat[x].id);
+        letak (26,22);
+        printf(" Harga Barang   : %s", dat[x].harga);
+    }
+    else{
+        letak (26,24);
+        printf("\033[1;31m\t\t\t --- Data Tidak Ditemukan ---\033[0m");
+    }
+
+    letak (26,25);
+    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+    getch();
+}
+
+
+void hapus() {
+    char jawab, search[30];
+    Tampilan_Tetap();
+    letak(26,13);
+    printf("\033[1;32m --- Hapus Data Barang --- \033[0m");
+    letak(26,15);
+    printf("Masukkan Kode Barang : ");
+    scanf("%d", &oy);
+    Mencari();
+    result = 0;
+    for (x = 0; x <= tot; x++) {
+        if (oy == dat[x].id) {
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1) {
+        letak(26,17);
+        printf("Data Barang berikut akan dihapus :");
+        letak(26,19);
+        printf(" Tanggal input : %s", dat[x].tanggal);
+        letak(26,20);
+        printf(" Nama Barang   : %s", dat[x].nama);
+        letak(26,21);
+        printf(" Kode Barang   : %d", dat[x].id);
+        letak(26,22);
+        printf(" Harga Barang  : %s", dat[x].harga);
+
+        snprintf(temps, sizeof(temps), " ADMIN menghapus data Barang No. %d", dat[x].id);
+        append(&head, temps);
+
+        for (int i = x; i < tot - 1; i++) {
+            strcpy(dat[i].nama, dat[i + 1].nama);
+            dat[i].id = dat[i + 1].id;
+            strcpy(dat[i].telp, dat[i + 1].telp);
+            strcpy(dat[i].tanggal, dat[i + 1].tanggal);
+            strcpy(dat[i].harga, dat[i + 1].harga);
+        }
+        tot--;
+    } else {
+        letak(26,24);
+        printf("\033[1;31m --- Data Tidak Ditemukan --- \033[0m");
+    }
+    letak(26,25);
+    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+    getch();
+}
+
+
+//14
+void edit() {
+    char stemp[30], search[30], temps[100];
+    int jaw = 0;
+    Tampilan_Tetap();
+    letak(26, 13);
+    printf("\033[1;32m --- Ubah Data Barang ---\033[0m");
+    letak(26, 15);
+    printf("Masukkan Kode Barang : ");
+    scanf("%d", &oy);
+
+    Mencari();
+
+    result = 0;
+    for (x = 0; x <= tot; x++) {
+        if (oy == dat[x].id) {
+            result = 1;
+            break;
+        }
+    }
+
+    if (result == 1) {
+        letak(26, 17);
+        printf("Data Barang berikut akan Diubah :");
+        letak(26, 19);
+        printf(" Tanggal input       : %s", dat[x].tanggal);
+        letak(26, 20);
+        printf(" Nama Barang         : %s", dat[x].nama);
+        letak(26, 21);
+        printf(" Kode Barang         : %d", dat[x].id);
+        letak(26, 22);
+        printf(" Harga Barang        : %s", dat[x].harga);
+
+        letak(26, 24);
+        printf("Pilih Data yang akan diganti");
+        letak(26, 26);
+        printf("1. Tanggal input");
+        letak(26, 27);
+        printf("2. Nama Barang");
+        letak(26, 28);
+        printf("3. Kode barang");
+        letak(26, 29);
+        printf("4. Harga Barang");
+        letak(26, 30);
+        printf("5. Selesai / Batal");
+        letak(26, 32);
+        printf("Pilihan : ");
+        scanf("%d", &jaw);
+
+        switch (jaw) {
+            case 1:
+                letak(26, 19);
+                printf(" Tanggal Input Baru: ");
+                scanf(" %[^\n]s", stemp);
+                strcpy(search, dat[x].tanggal);
+                strcpy(dat[x].tanggal, stemp);
+                snprintf(temps, sizeof(temps), " ADMIN mengubah tanggal input Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].tanggal);
+                append(&head, temps);
+                break;
+
+            case 2:
+                letak(26, 21);
+                printf(" Nama Barang Baru : ");
+                scanf(" %[^\n]s", stemp);
+                strcpy(search, dat[x].nama);
+                strcpy(dat[x].nama, stemp);
+                snprintf(temps, sizeof(temps), " ADMIN mengubah Nama Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].nama);
+                append(&head, temps);
+                break;
+
+            case 3:
+                letak(26, 23);
+                printf(" Kode Barang Baru: ");
+                scanf("%d", &temp);
+                jaw = dat[x].id;
+                dat[x].id = temp;
+                snprintf(temps, sizeof(temps), " ADMIN mengubah Kode Barang No. %d dari %d menjadi %d", jaw, jaw, dat[x].id);
+                append(&head, temps);
+                break;
+
+                    case 4:
+            letak(26, 25);
+            printf(" Ubah Harga : ");
+            scanf(" %[^\n]s", stemp);
+            strcpy(search, dat[x].harga);
+            strcpy(dat[x].harga, stemp);
+            snprintf(temps, sizeof(temps), " ADMIN mengubah Harga Barang No. %d dari %s menjadi %s", dat[x].id, search, dat[x].harga);
+            append(&head, temps);
+            break;
+
+        case 5:
+            return;
+
+        default:
+            letak(26, 34);
+            printf("\033[1;31mPilihan tidak tersedia!\033[0m");
+            break;
+        }
+    }
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int main()
+{
+     int pilihan;
+    char a=170,b=219, str[]="54321";;
+    printf("\n\n\n\n\n\n\n");
+    printf("\n\n\n\t\t\t\t\tLoading...");
+    printf("\n\n");
+    printf( "\t\t\t\t\t");
+
+    for (int i=0; i<= 25; i++)
+    {
+          printf("\033[1;32m>\033[0m");
+        Sleep(100);
+    }
+    printf ("\n\n\t\t\t\t\t\033[1;32m'\033[0mPRESS ANY BUTTON TO \033[1;32mLOGIN'\033[0m ");
+    system ("pause>0");
+
+    char nama[10], psw[8];
+    int ulang = 0;
+    system ("cls");
+
+    for(int i=0; i<1; i++)
+    {
+        sama();
+        printf("\n");
+        printf( "\t\t\t");printf("|");
+        for(int i=0; i<7; i++)
+        {
+            printf(" ");Sleep(1);
+        }
+        printf("\033[1;34m     Login ke Toko Klontong KAMI      \033[0m");
+         for(int i=0; i<6; i++)
+        {
+            printf(" ");Sleep(1);
+        } printf("|");printf("\n");
+        printf("\n");
+        sama();
+        printf("\n\n");
+
+}
+
+   char user[5]="tugas",pass[8]="kematian",word[8],name[5];
+    int i,j,k,l,p,input,cek,nilai,salah;
+    p=0;
+    salah=0;
+    awal:
+
+    printf("\n\n\n\n\n");
+    printf("\t\t\t\t\t");
+    printf("\033[1;34m--- SELAMAT DATANG! ---\n\033[0m");
+    printf("\n\t\t\t\t\t");
+    printf("USERNAME  : ");
+    printf("\033[1;32m");
+    scanf("%s",&name);
+    cek=0;
+    for(i=0;i<5;i++){
+        if(name[i]==user[i]){
+            cek=cek+1;
+        }else{
+            cek=0;
+        }
+    }
+    printf("\033[0m");
+    printf("\n\t\t\t\t\t");
+    printf("PASSWORD  : ");
+    for(i=0;i<8;i++){
+        input=getch();
+        if(input==13){
+            goto cek;
+        }else{
+            word[i]=input;
+            printf("\033[1;32m*\033[0m");
+        }
+    }
+    nilai=0;
+    for(i=0;i<8;i++){
+        if(pass[i]==word[i]){
+            nilai=nilai+1;
+        }else{
+            nilai=0;
+        }
+    }
+    getch();
+    cek:
+    if(cek==5&&nilai==8){
+        printf("\n\n\t\t\t\t  ");
+        printf("\033[1;32mSelamat datang di Tugas Kematian\033[0m");
+        printf("\n\n\t\t\t\t       ");
+        printf("\033[1;32mKlik ENTER untuk lanjut\033[0m");
+        getch();
+        system("cls");
+        goto muka;
+    }else{
+        if(cek==5){
+            printf("\n\n\t\t\t\t\t   ");
+            printf("\033[1;31mPassword salah\033[0m");
+            goto bawah;
+        }else if(nilai==8){
+            printf("\n\n\t\t\t\t\t   ");
+            printf("\033[1;31mUsername salah\033[0m");
+            goto bawah;
+        }else{
+            printf("\n\n\t\t\t\t     ");
+            printf("\033[1;31mUsername dan Password salah\033[0m");
+            goto bawah;
+        }
+    }
+    bawah:
+    salah=salah+1;
+    if(salah==3){
+        printf("\n\n\t\t  ");
+        printf("\033[1;31mAnda telah salah menginput username dan password sebanyak 3 kali\n\033[0m");
+        printf("\033[1;31m\n\t\t\t\t\tAnda akan keluar dalam \033[0m");
+        for( i =1 ; i<= 5; i++ ) {
+            letak(51, 20);
+            printf("%c", str[p++]);
+            Sleep(1000);
+            if(p == strlen(str))
+            p = 0;
+        }
+        system("cls");
+        return 0;
+    }else{
+        printf("\n\n\t\t\t\t     ");
+        printf("\033[1;32mKlik ENTER untuk mengulangi\033[0m");
+        printf("\n\n\t\t\t\t  ");
+        printf("\033[1;31mAnda memiliki %d kesempatan lagi!\033[0m",3-salah);
+        getch();
+        goto awal;
+    }
+
+    muka:
+
+        do {
+        system ("cls");
+        Tampilan_Tetap();
+        letak (26,13);
+        printf("1. Tambah Data Barang");
+        letak (26,14);
+        printf("2. Lihat Data Barang");
+        letak (26,15);
+        printf("3. Urutkan Data Barang");
+        letak (26,16);
+        printf("4. Pencarian Data Barang");
+        letak (26,17);
+        printf("5. Hapus Data Barang");
+        letak (26,18);
+        printf("6. Ubah Data Barang");
+        letak (26,19);
+        printf("\033[1;31m7. Exit\033[0m");
+        letak (26,21);
+        printf("\033[1;34mMasukkan Pilihan Anda : \033[0m"); scanf("%d", &pilihan);
+
+        switch(pilihan) {
+            case 1: system ("cls");
+                    tambah();
+                    break;
+            case 2: system ("cls");
+                    lihat();
+                    break;
+            case 3: system ("cls");
+                    urut();
+                    break;
+            case 4: system ("cls");
+                    cari();
+                    break;
+            case 5: system ("cls");
+                    hapus();
+                    break;
+            case 6: system ("cls");
+                    edit();
+                    break;
+            case 7: return 0;
+            default: letak(6,21); printf("\033[1;34mPilihan Tidak Tersedia\033[0m");getch();
+        }
+    } while(pilihan != 7);
+
+}
