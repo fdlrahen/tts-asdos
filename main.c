@@ -100,21 +100,19 @@ void Tampilan_Tetap() {
         {
             printf(" ");Sleep(1);
         }
-//v-waktu
+
 
         printf("\033[1;32m");
         time_t mytime;
 		mytime = time(NULL);
 		printf(ctime(&mytime));
         printf("\033[0m");
-//v-spasi dua
          printf( "\t\t\t");printf("|");
          for(int i=0; i<51; i++)
         {
             printf(" ");Sleep(0);
         }
         printf("|");printf("\n");
-//v-garis penutup
 
     garis();
     kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();kosong();
@@ -217,7 +215,6 @@ void tambah() {
 
     tot += jum;
 
-    // write data to file
     FILE *file = fopen("data_barang.txt", "a");
     if (file == NULL) {
         printf("\033[1;31mGagal membuka file\n\033[0m");
@@ -245,15 +242,14 @@ void lihat() {
 
     struct node *head = NULL;
 
-    // read data from file and create linked list
     struct data *d = malloc(sizeof(struct data));
     while (fscanf(file, "%s %s %d %s", d->tanggal, d->nama, &d->id, d->harga) != EOF) {
-        // create a new node
+     
         struct node *new_node = (struct node*) malloc(sizeof(struct node));
         new_node->barang = d;
         new_node->next = NULL;
 
-        // add new node to the end of the linked list
+        
         if(head == NULL) {
             head = new_node;
         }
@@ -265,13 +261,11 @@ void lihat() {
             temp_node->next = new_node;
         }
 
-        // allocate memory for the next data struct
         d = malloc(sizeof(struct data));
     }
 
     fclose(file);
 
-    // traverse the linked list and print the data
     int i = 1;
     struct node *temp_node = head;
     while(temp_node != NULL) {
@@ -294,7 +288,7 @@ void lihat() {
         temp_node = temp_node->next;
     }
 
-    // free memory allocated for linked list and data struct
+
     struct node *curr_node = head;
     while(curr_node != NULL) {
         struct node *temp_node = curr_node;
@@ -304,8 +298,7 @@ void lihat() {
     free(d);
 }
 
-// 8
-// punya Ikky
+
 void urut() {
     int temp;
     char temps[30];
@@ -322,7 +315,6 @@ void urut() {
         struct node* new_node = (struct node*) malloc(sizeof(struct node));
         new_node->barang = &dat[tot];
 
-        // add new node to the end of the linked list
         if(head == NULL) {
             head = new_node;
             new_node->next = NULL;
@@ -365,7 +357,6 @@ void urut() {
         }
     }
 
-    // write data to file
     file = fopen("data_barang.txt", "w");
     if (file == NULL) {
         printf("\033[1;31mGagal membuka file\n\033[0m");
@@ -383,8 +374,6 @@ void urut() {
     system("cls");
 }
 
-
-//11
 void mencari(){
     int oy;
     Tampilan_Tetap();
@@ -394,7 +383,6 @@ void mencari(){
     printf("Masukkan Kode Barang: ");
     scanf("%d", &oy);
 
-    // read data from file and add to linked list
     char filename[] = "data_barang.txt";
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -422,7 +410,6 @@ void mencari(){
     }
     fclose(file);
 
-    // search data in linked list
     struct node* temp = head;
     while (temp != NULL) {
         if (temp->barang->id == oy) {
@@ -443,14 +430,12 @@ void mencari(){
         temp = temp->next;
     }
 
-    // display error message if data not found
     letak (26,24);
     printf("\033[1;31m --- Data tidak ditemukan ---\033[0m");
     getch();
 }
 
 
-//calvin
 void hapus() {
     int kodeBarang;
     struct node *temp_node = head, *prev_node;
@@ -462,13 +447,12 @@ void hapus() {
     printf("Masukkan Kode Barang : ");
     scanf("%d", &kodeBarang);
 
-    // traverse the linked list to find the node with the matching data
     while (temp_node != NULL && temp_node->barang->id != kodeBarang) {
         prev_node = temp_node;
         temp_node = temp_node->next;
     }
 
-    if (temp_node == NULL) { // if node not found
+    if (temp_node == NULL) { 
         printf("\n\t\t\t\tData tidak ditemukan.\n");
     } else {
         letak(26,17);
@@ -494,7 +478,6 @@ void hapus() {
             }
             free(temp_node);
 
-            // Tulis ulang seluruh data ke file setelah dihapus
             FILE *file = fopen("data_barang.txt", "w");
             if (file == NULL) {
                 printf("\033[1;31mGagal membuka file\n\033[0m");
@@ -519,8 +502,6 @@ void hapus() {
 
 
 
-
-//14 calvin 6
 void edit() {
     char stemp[30], search[30], temps[100];
     int jaw = 0;
