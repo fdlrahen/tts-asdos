@@ -1,9 +1,8 @@
-
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
-    #include <windows.h>
-    #include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <windows.h>
+#include <conio.h>
 
 struct data {
     int id;
