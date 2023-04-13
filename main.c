@@ -26,8 +26,6 @@ void Ulang_Login();
 void Tampilan_Tetap();
 void Mencari();
 
-// 2
-
  void letak (int x, int y){
         COORD CRD;
         CRD.X=x;
@@ -127,7 +125,6 @@ void Mencari(){
     int i, j;
     struct data temp;
 
-    // sorting the data array by book ID in ascending order using bubble sort
     for(i=0; i<tot-1; i++){
         for(j=0; j<tot-i-1; j++){
             if(dat[j].id > dat[j+1].id){
@@ -155,7 +152,6 @@ void append(struct node** head_ref, char histo[]) {
     last->next = new_node;
 }
 
-// 3
 
 void printlist(struct node *node){
     while(node != NULL){
@@ -164,7 +160,6 @@ void printlist(struct node *node){
     }
 }
 
-// 4
 void tambah() {
     Tampilan_Tetap();
     letak(26, 13);
@@ -203,11 +198,9 @@ void tambah() {
         letak(43, 20);
         scanf(" %[^\n]%*c", &dat[i + tot].harga);
 
-        // create a new node
         struct node* new_node = (struct node*) malloc(sizeof(struct node));
         new_node->barang = &dat[i + tot];
 
-        // add new node to the end of the linked list
         if(head == NULL) {
             head = new_node;
             new_node->next = NULL;
@@ -243,9 +236,6 @@ void tambah() {
 }
 
 
-
-// 6
-
 void lihat() {
     FILE *file = fopen("data_barang.txt", "r");
     if (file == NULL) {
@@ -253,7 +243,6 @@ void lihat() {
         return;
     }
 
-    // initialize head node
     struct node *head = NULL;
 
     // read data from file and create linked list
