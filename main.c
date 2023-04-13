@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -134,46 +135,23 @@ void Mencari(){
 }
 
 
-void append(struct node** head_ref, char histo[]) {
-
-    struct node* new_node = (struct node*) malloc(sizeof(struct node));
-    struct node *last = * head_ref;
-
-    strcpy(new_node->hist, histo);
-    new_node->next = NULL;
-
-    if(*head_ref == NULL) {
-        last = last->next;
-    }
-
-    last->next = new_node;
-}
-
-
-void printlist(struct node *node){
-    while(node != NULL){
-        printf("%s \n", node->hist);
-        node = node->next;
-    }
-}
-
 void tambah() {
     Tampilan_Tetap();
     letak(26, 13);
-    printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
+    printf("\033[1;34m --- Tambah Data Toko Kelontong --- \033[0m");
 
     letak(26, 14);
-    printf(" Masukan Jumlah Data Buku Yang Dimasukan : ");
+    printf(" Masukan Jumlah Data Yang Ingin Dimasukan : ");
     scanf("%d", &jum);
 
     for(int i = 0; i < jum; i++) {
         system("cls");
         Tampilan_Tetap();
         letak(26, 13);
-        printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
+        printf("\033[1;34m --- Tambah Data Toko Kelontong--33[0m");
 
         letak(26, 14);
-        printf(" Masukan Jumlah Data Buku Yang Dimasukan : %d", jum);
+        printf(" Masukan Jumlah Data Yang Dimasukan : %d", jum);
 
         letak(26, 16);
         printf(" Data ke %d", i + 1);
@@ -243,12 +221,12 @@ void lihat() {
 
     struct data *d = malloc(sizeof(struct data));
     while (fscanf(file, "%s %s %d %s", d->tanggal, d->nama, &d->id, d->harga) != EOF) {
-     
+
         struct node *new_node = (struct node*) malloc(sizeof(struct node));
         new_node->barang = d;
         new_node->next = NULL;
 
-        
+
         if(head == NULL) {
             head = new_node;
         }
@@ -451,7 +429,7 @@ void hapus() {
         temp_node = temp_node->next;
     }
 
-    if (temp_node == NULL) { 
+    if (temp_node == NULL) {
         printf("\n\t\t\t\tData tidak ditemukan.\n");
     } else {
         letak(26,17);
@@ -525,52 +503,53 @@ void edit() {
         letak(26, 17);
         printf("Data Barang berikut akan Diubah :");
         letak(26, 19);
-        printf(" Tanggal input       : %s", dat[x].tanggal);
+        printf(" 1.Tanggal input       : %s", dat[x].tanggal);
         letak(26, 20);
-        printf(" Nama Barang         : %s", dat[x].nama);
+        printf(" 2.Nama Barang         : %s", dat[x].nama);
         letak(26, 21);
-        printf(" Kode Barang         : %d", dat[x].id);
+        printf(" 3.Kode Barang         : %d", dat[x].id);
         letak(26, 22);
-        printf(" Harga Barang        : %s", dat[x].harga);
+        printf(" 4.Harga Barang        : %s", dat[x].harga);
 
-        letak(26, 24);
+        system("cls");
+        Tampilan_Tetap();
+        letak(26, 12);
         printf("Pilih Data yang akan diganti");
-        letak(26, 26);
+
+        letak(26, 13);
         printf("1. Tanggal input");
-        letak(26, 27);
+        letak(26, 14);
         printf("2. Nama Barang");
-        letak(26, 28);
+        letak(26, 15);
         printf("3. Kode barang");
-        letak(26, 29);
-        printf("4. Harga Barang");
-        letak(26, 30);
-        printf("5. Selesai / Batal");
-        letak(26, 32);
+        letak(26, 16);
+        printf("4. Harga Barang\n");
+        letak(26, 17);
+        printf("5. Selesai / Batal\n");
+        letak(26, 18);
         printf("Pilihan : ");
         scanf("%d", &jaw);
 
         switch (jaw) {
+            Tampilan_Tetap();
             case 1:
-                letak(26, 35);
-                printf("Masukkan Tanggal input baru : ");
+                printf("\t\t\t Masukkan Tanggal input baru : ");
                 scanf(" %[^\n]%*c", &stemp);
                 strcpy(dat[x].tanggal, stemp);
                 break;
             case 2:
-                letak(26, 35);
-                printf("Masukkan Nama Barang baru : ");
+                printf("\t\t\t  Masukkan Nama Barang baru : ");
                 scanf(" %[^\n]%*c", &stemp);
                 strcpy(dat[x].nama, stemp);
                 break;
             case 3:
-                letak(26, 35);
-                printf("Masukkan Kode barang baru : ");
+                printf("\t\t\t  Masukkan Kode barang baru : ");
                 scanf("%d", &temp);
                 dat[x].id = temp;
                 break;
             case 4:
+                printf("\t\t\t  Masukkan Harga Barang baru : ");
                 letak(26, 35);
-                printf("Masukkan Harga Barang baru : ");
                 scanf(" %[^\n]%*c", &stemp);
                             strcpy(dat[x].harga, stemp);
             break;
@@ -594,11 +573,11 @@ void edit() {
 
     fclose(fp);
 
-    printf("\033[1;32mData berhasil diubah!\n\033[0m");
+    printf("\t\t\t\033[1;32m Data berhasil diubah!\n\033[0m");
     system("pause");
 } else {
     letak(26, 17);
-    printf("\033[1;31mData tidak ditemukan!\n\033[0m");
+    printf("\t\t\t\033[1;31mData tidak ditemukan!\n\033[0m");
     system("pause");
 }
 system("cls");
@@ -648,7 +627,7 @@ int main()
 
 }
 
-   char user[5]="tugas",pass[8]="kematian",word[8],name[5];
+   char user[5]="admin",pass[8]="ganteng",word[8],name[5];
     int i,j,k,l,p,input,cek,nilai,salah;
     p=0;
     salah=0;
@@ -669,20 +648,41 @@ int main()
             cek=0;
         }
     }
+
     printf("\033[0m");
     printf("\n\t\t\t\t\t");
     printf("PASSWORD  : ");
-    for(i=0;i<8;i++){
+   // input=getch();
+    for (i = 0; i < 7;) {
+    input = getchar();
+    if (input == '\n') {
+        break;
+    } else if (input == 127 || input == 8) {  // handle backspace and delete keys
+        if (i > 0) {
+            i--;
+            printf("\b \b");  // move the cursor back and erase the character
+        }
+    } else {
+        word[i] = input;
+        printf("\033[1;32m*\033[0m");
+        i++;
+    }
+}
+
+
+
+    for(i=0;i<7;i++){
         input=getch();
-        if(input==13){
+        if(input==12){
             goto cek;
         }else{
             word[i]=input;
             printf("\033[1;32m*\033[0m");
+
         }
     }
     nilai=0;
-    for(i=0;i<8;i++){
+    for(i=0;i<7;i++){
         if(pass[i]==word[i]){
             nilai=nilai+1;
         }else{
@@ -690,8 +690,9 @@ int main()
         }
     }
     getch();
+
     cek:
-    if(cek==5&&nilai==8){
+    if(cek==5&&nilai==7){
         printf("\n\n\t\t\t\t  ");
         printf("\033[1;32mSelamat datang di Tugas Kematian\033[0m");
         printf("\n\n\t\t\t\t       ");
@@ -715,6 +716,7 @@ int main()
         }
     }
     bawah:
+        system("cls");
     salah=salah+1;
     if(salah==3){
         printf("\n\n\t\t  ");
