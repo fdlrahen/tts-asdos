@@ -1,4 +1,4 @@
-// 1
+
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
@@ -12,8 +12,10 @@ struct data {
 
 struct node {
     char hist[100];
+    struct data *barang;
     struct node *next;
 };
+
 
 int jum=0, tot=0, temp, oy, result, x;
 char temps[100];
@@ -163,56 +165,83 @@ void printlist(struct node *node){
 }
 
 // 4
-void tambah(){
-        FILE *file = fopen("data_barang.txt", "a");
-    if (file == NULL) {
-    printf("\033[1;31mGagal membuka file\n\033[0m");
-    return;
-    }
+void tambah() {
     Tampilan_Tetap();
-    letak(26,13);
+    letak(26, 13);
     printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
-    letak(26,14);
-    printf(" Masukan Jumlah Data Buku Yang Dimasukan : "); scanf("%d", &jum);
+
+    letak(26, 14);
+    printf(" Masukan Jumlah Data Buku Yang Dimasukan : ");
+    scanf("%d", &jum);
 
     for(int i = 0; i < jum; i++) {
         system("cls");
         Tampilan_Tetap();
-        letak(26,13);
+        letak(26, 13);
         printf("\033[1;34m --- Tambah Data Buku --- \033[0m");
-        letak(26,14);
+
+        letak(26, 14);
         printf(" Masukan Jumlah Data Buku Yang Dimasukan : %d", jum);
 
-        letak(26,16);
-        printf(" Data ke %d", i+1);
-        letak(26,17);
+        letak(26, 16);
+        printf(" Data ke %d", i + 1);
+        letak(26, 17);
         printf(" Tanggal       : ");
-        letak(26,18);
+        letak(26, 18);
         printf(" Nama Barang   : ");
-        letak(26,19);
+        letak(26, 19);
         printf(" Kode Barang   : ");
-        letak(26,20);
+        letak(26, 20);
         printf(" Harga         : ");
 
-        letak(43,17);
-        scanf(" %[^\n]%*c", &dat[i+tot].tanggal);
-        letak(43,18);
-        scanf(" %[^\n]%*c", &dat[i+tot].nama);
-        letak(43,19);
-        scanf(" %d", &dat[i+tot].id);
-        letak(43,20);
-        scanf(" %[^\n]%*c", &dat[i+tot].harga);
-        // tulis data ke file
-        fprintf(file, "%s %s %d %s\n", dat[i+tot].tanggal, dat[i+tot].nama, dat[i+tot].id, dat[i+tot].harga);
+        letak(43, 17);
+        scanf(" %[^\n]%*c", &dat[i + tot].tanggal);
+        letak(43, 18);
+        scanf(" %[^\n]%*c", &dat[i + tot].nama);
+        letak(43, 19);
+        scanf(" %d", &dat[i + tot].id);
+        letak(43, 20);
+        scanf(" %[^\n]%*c", &dat[i + tot].harga);
+
+        // create a new node
+        struct node* new_node = (struct node*) malloc(sizeof(struct node));
+        new_node->barang = &dat[i + tot];
+
+        // add new node to the end of the linked list
+        if(head == NULL) {
+            head = new_node;
+            new_node->next = NULL;
         }
-        tot += jum;
-
-        fclose(file);
-        printf("\033[1;32m\t\t\t Data berhasil ditambahkan\n\033[0m");
-        system("pause");
-        system("cls");
-
+        else {
+            struct node* temp_node = head;
+            while(temp_node->next != NULL) {
+                temp_node = temp_node->next;
+            }
+            temp_node->next = new_node;
+            new_node->next = NULL;
+        }
     }
+
+    tot += jum;
+
+    // write data to file
+    FILE *file = fopen("data_barang.txt", "a");
+    if (file == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+    struct node* temp_node = head;
+    while(temp_node != NULL) {
+        fprintf(file, "%s %s %d %s\n", temp_node->barang->tanggal, temp_node->barang->nama, temp_node->barang->id, temp_node->barang->harga);
+        temp_node = temp_node->next;
+    }
+    fclose(file);
+
+    printf("\033[1;32m\t\t\t Data berhasil ditambahkan\n\033[0m");
+    system("pause");
+    system("cls");
+}
+
 
 
 // 6
@@ -223,87 +252,148 @@ void lihat() {
         printf("\033[1;31mGagal membuka file\n\033[0m");
         return;
     }
-    int i = 0;
-    while (fscanf(file, "%s %s %d %s", dat[i].tanggal, dat[i].nama, &dat[i].id, dat[i].harga) != EOF) {
-        if(i==0 || i%3==0) {
-            system("cls");
-            Tampilan_Tetap();
-            letak(26,13);
-            printf("\033[1;34m --- Daftar Data Barang --- \n\n\033[0m");
-            letak(26,15);
-            printf(" Data ke %d", i+1);
-            letak(26,16);
-            printf(" Tanggal Input           :%s", dat[i].tanggal);
-            letak(26,17);
-            printf(" Nama Barang             :%s", dat[i].nama);
-            letak(26,18);
-            printf(" Kode Barang             :%d", dat[i].id);
-            letak(26,19);
-            printf(" Harga Barang            :%s", dat[i].harga);
-		getch();
-        }else if(i==1 || i==4 || i==7 || i==10 || i==13) {
-            letak(26,21);
-            printf(" Data ke %d", i+1);
-            letak(26,22);
-            printf(" Tanggal Input           :%s", dat[i].tanggal);
-            letak(26,23);
-            printf(" Nama Barang             :%s", dat[i].nama);
-            letak(26,24);
-            printf(" Kode Barang             :%d", dat[i].id);
-            letak(26,25);
-            printf(" Harga Barang            :%s", dat[i].harga);
-		getch();
-        }else {
-            letak(26,27);
-            printf(" Data ke %d", i+1);
-            letak(26,28);
-            printf(" Tanggal Input           :%s", dat[i].tanggal);
-            letak(26,29);
-            printf(" Nama Barang             :%s", dat[i].nama);
-            letak(26,30);
-            printf(" Kode Barang             :%d", dat[i].id);
-            letak(26,31);
-            printf(" Harga Barang            :%s", dat[i].harga);
-            getch();
+
+    // initialize head node
+    struct node *head = NULL;
+
+    // read data from file and create linked list
+    struct data *d = malloc(sizeof(struct data));
+    while (fscanf(file, "%s %s %d %s", d->tanggal, d->nama, &d->id, d->harga) != EOF) {
+        // create a new node
+        struct node *new_node = (struct node*) malloc(sizeof(struct node));
+        new_node->barang = d;
+        new_node->next = NULL;
+
+        // add new node to the end of the linked list
+        if(head == NULL) {
+            head = new_node;
         }
+        else {
+            struct node *temp_node = head;
+            while(temp_node->next != NULL) {
+                temp_node = temp_node->next;
+            }
+            temp_node->next = new_node;
+        }
+
+        // allocate memory for the next data struct
+        d = malloc(sizeof(struct data));
     }
-    letak(26,35);
-    printf("\033[1;32m\n\n\t\t\t Tekan Enter Untuk Kembali ke Menu\033[0m"); getch();
-}// 8
+
+    fclose(file);
+
+    // traverse the linked list and print the data
+    int i = 1;
+    struct node *temp_node = head;
+    while(temp_node != NULL) {
+        system("cls");
+        Tampilan_Tetap();
+        letak(26, 13);
+        printf("\033[1;34m --- Daftar Data Barang --- \n\n\033[0m");
+        letak(26, 15);
+        printf(" Data ke %d", i);
+        letak(26, 16);
+        printf(" Tanggal Input           :%s", temp_node->barang->tanggal);
+        letak(26, 17);
+        printf(" Nama Barang             :%s", temp_node->barang->nama);
+        letak(26, 18);
+        printf(" Kode Barang             :%d", temp_node->barang->id);
+        letak(26, 19);
+        printf(" Harga Barang            :%s", temp_node->barang->harga);
+        getch();
+        i++;
+        temp_node = temp_node->next;
+    }
+
+    // free memory allocated for linked list and data struct
+    struct node *curr_node = head;
+    while(curr_node != NULL) {
+        struct node *temp_node = curr_node;
+        curr_node = curr_node->next;
+        free(temp_node);
+    }
+    free(d);
+}
+
+// 8
 // punya Ikky
 void urut() {
     int temp;
     char temps[30];
     Tampilan_Tetap();
+
+    // read data from file
+    FILE *file = fopen("data_barang.txt", "r");
+    if (file == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+    while(fscanf(file, "%s %s %d %s", dat[tot].tanggal, dat[tot].nama, &dat[tot].id, dat[tot].harga) != EOF) {
+        // create a new node
+        struct node* new_node = (struct node*) malloc(sizeof(struct node));
+        new_node->barang = &dat[tot];
+
+        // add new node to the end of the linked list
+        if(head == NULL) {
+            head = new_node;
+            new_node->next = NULL;
+        }
+        else {
+            struct node* temp_node = head;
+            while(temp_node->next != NULL) {
+                temp_node = temp_node->next;
+            }
+            temp_node->next = new_node;
+            new_node->next = NULL;
+        }
+        tot++;
+    }
+    fclose(file);
+
     for (int i = 0; i < tot -1; i++) {
-    for (int j = 0; j < tot -i -1; j++) {
-    if (dat[j].id > dat[j+1].id) {
-        temp = dat[j].id;
-        dat[j].id = dat[j+1].id;
-        dat[j+1].id = temp;
+        for (int j = 0; j < tot -i -1; j++) {
+            if (dat[j].id > dat[j+1].id) {
+                temp = dat[j].id;
+                dat[j].id = dat[j+1].id;
+                dat[j+1].id = temp;
 
-            strcpy(temps, dat[j].nama);
-            strcpy(dat[j].nama, dat[j+1].nama);
-            strcpy(dat[j+1].nama, temps);
+                strcpy(temps, dat[j].nama);
+                strcpy(dat[j].nama, dat[j+1].nama);
+                strcpy(dat[j+1].nama, temps);
 
-            strcpy(temps, dat[j].tanggal);
-            strcpy(dat[j].tanggal, dat[j+1].tanggal);
-            strcpy(dat[j+1].tanggal, temps);
+                strcpy(temps, dat[j].tanggal);
+                strcpy(dat[j].tanggal, dat[j+1].tanggal);
+                strcpy(dat[j+1].tanggal, temps);
 
-            strcpy(temps, dat[j].harga);
-            strcpy(dat[j].harga, dat[j+1].harga);
-            strcpy(dat[j+1].harga, temps);
+                strcpy(temps, dat[j].harga);
+                strcpy(dat[j].harga, dat[j+1].harga);
+                strcpy(dat[j+1].harga, temps);
 
-            strcpy(temps, dat[j].telp);
-            strcpy(dat[j].telp, dat[j+1].telp);
-            strcpy(dat[j+1].telp, temps);
+                strcpy(temps, dat[j].telp);
+                strcpy(dat[j].telp, dat[j+1].telp);
+                strcpy(dat[j+1].telp, temps);
+            }
         }
     }
+
+    // write data to file
+    file = fopen("data_barang.txt", "w");
+    if (file == NULL) {
+        printf("\033[1;31mGagal membuka file\n\033[0m");
+        return;
+    }
+    struct node* temp_node = head;
+    while(temp_node != NULL) {
+        fprintf(file, "%s %s %d %s\n", temp_node->barang->tanggal, temp_node->barang->nama, temp_node->barang->id, temp_node->barang->harga);
+        temp_node = temp_node->next;
+    }
+    fclose(file);
+
+    printf("\033[1;32m\t\t\tData berhasil diurutkan berdasarkan Kode Barang\n\033[0m");
+    system("pause");
+    system("cls");
 }
-printf("\033[1;32m\t\t\tData berhasil diurutkan berdasarkan Kode Barang\n\033[0m");
-system("pause");
-system("cls");
-}
+
 
 //11
 void mencari(){
@@ -315,107 +405,130 @@ void mencari(){
     printf("Masukkan Kode Barang: ");
     scanf("%d", &oy);
 
+    // read data from file and add to linked list
     char filename[] = "data_barang.txt";
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("\033[1;31mGagal membuka file\n\033[0m");
         return;
     }
-
-    int result = 0, x;
+    struct node* head = NULL;
     char line[100];
     while (fgets(line, sizeof(line), file)) {
-        sscanf(line, "%s %s %d %s", dat[tot].tanggal, dat[tot].nama, &dat[tot].id, dat[tot].harga);
-        if (oy == dat[tot].id){
-            result = 1;
-            break;
+        struct data* new_data = malloc(sizeof(struct data));
+        sscanf(line, "%s %s %d %s", new_data->tanggal, new_data->nama, &new_data->id, new_data->harga);
+        struct node* new_node = malloc(sizeof(struct node));
+        new_node->barang = new_data;
+        if (head == NULL) {
+            head = new_node;
+            head->next = NULL;
+        } else {
+            struct node* temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = new_node;
+            new_node->next = NULL;
         }
-        tot++;
     }
-
     fclose(file);
 
-    if (result == 1){
-        letak (26,17);
-        printf("\033[1;32m --- Data Ditemukan --- \033[0m");
-        letak (26,19);
-        printf(" Tanggal input  : %s", dat[tot].tanggal);
-        letak (26,20);
-        printf(" Nama Barang    : %s", dat[tot].nama);
-        letak (26,21);
-        printf(" Kode Barang    : %d", dat[tot].id);
-        letak (26,22);
-        printf(" Harga Barang   : %s", dat[tot].harga);
-    }
-    else{
-        letak (26,24);
-        printf("\033[1;31m\t\t\t --- Data Tidak Ditemukan ---\033[0m");
+    // search data in linked list
+    struct node* temp = head;
+    while (temp != NULL) {
+        if (temp->barang->id == oy) {
+            // display search result
+            letak (26,17);
+            printf("\033[1;32m --- Data Ditemukan --- \033[0m");
+            letak (26,19);
+            printf(" Tanggal input  : %s", temp->barang->tanggal);
+            letak (26,20);
+            printf(" Nama Barang    : %s", temp->barang->nama);
+            letak (26,21);
+            printf(" Kode Barang    : %d", temp->barang->id);
+            letak (26,22);
+            printf(" Harga Barang   : %s", temp->barang->harga);
+            getch();
+            return;
+        }
+        temp = temp->next;
     }
 
-    letak (26,25);
-    printf("\033[1;32m Tekan Enter Untuk Kembali ke Menu\033[0m");
+    // display error message if data not found
+    letak (26,24);
+    printf("\033[1;31m --- Data tidak ditemukan ---\033[0m");
     getch();
 }
 
+
 //calvin
 void hapus() {
-    char jawab, search[30];
+    int kodeBarang;
+    struct node *temp_node = head, *prev_node;
+
     Tampilan_Tetap();
     letak(26,13);
     printf("\033[1;32m --- Hapus Data Barang --- \033[0m");
     letak(26,15);
     printf("Masukkan Kode Barang : ");
-    scanf("%d", &oy);
-    Mencari();
-    result = 0;
-    for (x = 0; x <= tot; x++) {
-        if (oy == dat[x].id) {
-            result = 1;
-            break;
-        }
+    scanf("%d", &kodeBarang);
+
+    // traverse the linked list to find the node with the matching data
+    while (temp_node != NULL && temp_node->barang->id != kodeBarang) {
+        prev_node = temp_node;
+        temp_node = temp_node->next;
     }
 
-    if (result == 1) {
+    if (temp_node == NULL) { // if node not found
+        printf("\n\t\t\t\tData tidak ditemukan.\n");
+    } else {
         letak(26,17);
         printf("Data Barang berikut akan dihapus :");
         letak(26,19);
-        printf(" Tanggal input : %s", dat[x].tanggal);
+        printf(" Tanggal input : %s", temp_node->barang->tanggal);
         letak(26,20);
-        printf(" Nama Barang   : %s", dat[x].nama);
+        printf(" Nama Barang   : %s", temp_node->barang->nama);
         letak(26,21);
-        printf(" Kode Barang   : %d", dat[x].id);
+        printf(" Kode Barang   : %d", temp_node->barang->id);
         letak(26,22);
-        printf(" Harga Barang  : %s", dat[x].harga);
+        printf(" Harga Barang  : %s", temp_node->barang->harga);
 
+        char jawab;
         printf("\n\n\t\t\t Yakin ingin menghapus data ini? (\033[1;32mY\033[0m/\033[1;31mN\033[0m) ");
         scanf(" %c", &jawab);
 
         if (jawab == 'Y' || jawab == 'y') {
-            for (int i = x; i < tot - 1; i++) {
-                dat[i] = dat[i+1];
+            if (temp_node == head) { // if node to be deleted is the first node
+                head = head->next;
+            } else {
+                prev_node->next = temp_node->next;
             }
-            tot--;
+            free(temp_node);
 
             // Tulis ulang seluruh data ke file setelah dihapus
             FILE *file = fopen("data_barang.txt", "w");
-            for (int i = 0; i < tot; i++) {
-                fprintf(file, "%s %s %d %s\n", dat[i].tanggal, dat[i].nama, dat[i].id, dat[i].harga);
+            if (file == NULL) {
+                printf("\033[1;31mGagal membuka file\n\033[0m");
+                return;
+            }
+            temp_node = head;
+            while (temp_node != NULL) {
+                fprintf(file, "%s %s %d %s\n", temp_node->barang->tanggal, temp_node->barang->nama, temp_node->barang->id, temp_node->barang->harga);
+                temp_node = temp_node->next;
             }
             fclose(file);
 
-            printf("\033[1;32m\t\t\t Data berhasil dihapus\n\033[0m");
-        }
-        else {
-            printf("\033[1;31m\t\t\t Data tidak jadi dihapus\n\033[0m");
+            tot--;
+            printf("\n\t\t\t\tData berhasil dihapus.\n");
+        } else {
+            printf("\n\t\t\t\tPenghapusan data dibatalkan.\n");
         }
     }
-    else {
-        printf("\033[1;31m\t\t\t Data tidak ditemukan\n\033[0m");
-    }
-
     system("pause");
     system("cls");
 }
+
+
 
 
 //14 calvin 6
@@ -698,7 +811,7 @@ int main()
                     edit();
                     break;
             case 7: return 0;
-            default: letak(6,21); printf("\033[1;34mPilihan Tidak Tersedia\033[0m");getch();
+            default: letak(6,21); printf("\033[1;31mPilihan Tidak Tersedia\033[0m");getch();
         }
     } while(pilihan != 7);
 
